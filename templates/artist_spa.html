@@ -2,23 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aero Soul</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <header>
         <div class="container">
-            <nav>
-                <a href="#" class="logo" data-target="home">Aero Soul</a>
-                <ul class="nav-links">
-                    <li><a href="#" data-target="home">Home</a></li>
-                    <li><a href="#" data-target="gallery">Gallery</a></li>
-                    <li><a href="#" data-target="about">About</a></li>
-                    <li><a href="#" data-target="contact">Contact</a></li>
-                </ul>
-                <div class="mobile-menu-btn">☰</div>
-            </nav>
         </div>
     </header>
 
@@ -27,6 +15,37 @@
         <div class="headerImage" style="justify-items: center;">
             <img src="{{logo}}" width="400" height="auto">
         </div>
+        <div id="mc_embed_shell">
+      <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
+  <style type="text/css">
+        #mc_embed_signup{background:#fff; false;clear:left; font:14px Helvetica,Arial,sans-serif; width: 600px;}
+        /* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
+           We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+</style>
+<div id="mc_embed_signup" style="justify-self: center;">
+    <form action="https://gmail.us17.list-manage.com/subscribe/post?u=3d5afd3607c98065555827374&amp;id=6038cffaf1&amp;f_id=00dff3e0f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+        <div id="mc_embed_signup_scroll"><h2>Keep up to date</h2>
+            <div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
+            <div class="mc-field-group"><label for="mce-EMAIL">Email Address <span class="asterisk">*</span></label><input type="email" name="EMAIL" class="required email" id="mce-EMAIL" required="" value=""></div>
+        <div id="mce-responses" class="clear foot">
+            <div class="response" id="mce-error-response" style="display: none;"></div>
+            <div class="response" id="mce-success-response" style="display: none;"></div>
+        </div>
+    <div aria-hidden="true" style="position: absolute; left: -5000px;">
+        /* real people should not fill this in and expect good things - do not remove this or risk form bot signups */
+        <input type="text" name="b_3d5afd3607c98065555827374_6038cffaf1" tabindex="-1" value="">
+    </div>
+        <div class="optionalParent">
+            <div class="clear foot">
+                <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button" value="Subscribe">
+                <p style="margin: 0px auto;"><a href="http://eepurl.com/iYeUM6" title="Mailchimp - email marketing made easy and fun"><span style="display: inline-block; background-color: transparent; border-radius: 4px;"><img class="refferal_badge" src="https://digitalasset.intuit.com/render/content/dam/intuit/mc-fe/en_us/images/intuit-mc-rewards-text-dark.svg" alt="Intuit Mailchimp" style="width: 220px; height: 40px; display: flex; padding: 2px 0px; justify-content: center; align-items: center;"></span></a></p>
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+<script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script><script type="text/javascript">(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='ADDRESS';ftypes[3]='address';fnames[4]='PHONE';ftypes[4]='phone';fnames[5]='BIRTHDAY';ftypes[5]='birthday';fnames[6]='COMPANY';ftypes[6]='text';}(jQuery));var $mcj = jQuery.noConflict(true);</script></div>
+
         <section id="home" class="page active">
             <div class="gallery">
                 <h1 style="color: rgb(255, 255, 255);">Visuals</h1>
@@ -50,55 +69,8 @@
             <div class="gallery">
                 <h1 style="color: rgb(255, 255, 255);">Music</h1>
                 <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2076641572&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/aerosoul" title="Aero Soul" target="_blank" style="color: #cccccc; text-decoration: none;">Aero Soul</a> · <a href="https://soundcloud.com/aerosoul/push-flip" title="Skrillex, Hamdi, TAICHU &amp; OFFAIAH - Push (Aero Soul Flip)" target="_blank" style="color: #cccccc; text-decoration: none;">Skrillex, Hamdi, TAICHU &amp; OFFAIAH - Push (Aero Soul Flip)</a></div>
-            </div>
-        </section>
-
-        <!-- Gallery Page -->
-        <section id="gallery" class="page">
-            <h2 style="text-align: center; margin-bottom: 40px; font-size: 36px;">Art Gallery</h2>
-            <div class="gallery">
-                <div class="artwork">
-                    <img src="/api/placeholder/400/320" alt="Artwork 1">
-                    <div class="artwork-info">
-                        <h3>Sunset Dreams</h3>
-                        <p>Oil on canvas, 2024</p>
-                    </div>
-                </div>
-                <div class="artwork">
-                    <img src="/api/placeholder/400/320" alt="Artwork 2">
-                    <div class="artwork-info">
-                        <h3>Urban Whispers</h3>
-                        <p>Mixed media, 2023</p>
-                    </div>
-                </div>
-                <div class="artwork">
-                    <img src="/api/placeholder/400/320" alt="Artwork 3">
-                    <div class="artwork-info">
-                        <h3>Nature's Embrace</h3>
-                        <p>Acrylic on canvas, 2024</p>
-                    </div>
-                </div>
-                <div class="artwork">
-                    <img src="/api/placeholder/400/320" alt="Artwork 4">
-                    <div class="artwork-info">
-                        <h3>Silent Melody</h3>
-                        <p>Watercolor, 2022</p>
-                    </div>
-                </div>
-                <div class="artwork">
-                    <img src="/api/placeholder/400/320" alt="Artwork 5">
-                    <div class="artwork-info">
-                        <h3>Abstract Thoughts</h3>
-                        <p>Digital art, 2024</p>
-                    </div>
-                </div>
-                <div class="artwork">
-                    <img src="/api/placeholder/400/320" alt="Artwork 6">
-                    <div class="artwork-info">
-                        <h3>Memory Lane</h3>
-                        <p>Charcoal on paper, 2023</p>
-                    </div>
-                </div>
+                <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2036933716&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/aerosoul" title="Aero Soul" target="_blank" style="color: #cccccc; text-decoration: none;">Aero Soul</a> · <a href="https://soundcloud.com/aerosoul/ruins" title="RUINS" target="_blank" style="color: #cccccc; text-decoration: none;">RUINS</a></div>
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/0hHIcVaek62L2nIDIXC3dx?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
         </section>
 

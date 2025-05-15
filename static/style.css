@@ -21,9 +21,14 @@ body {
     color: #ddd;
 }
 
+.li {
+    color: white;
+}
+
 video {
     max-height: 300px;
     min-height: 300px;
+    min-width: 300px;
 }
 .video-gallery {
     display: flex;
@@ -36,7 +41,7 @@ video {
     position: relative;
     border-radius: 8px;
     align-self: center;
-    overflow: hidden;
+    
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     background-color: #fff;
 }
@@ -68,7 +73,7 @@ video {
 
 .headerImage {
     justify-self: center;
-    padding-top: 5rem
+    padding-top: 5rem;
 }
 header {
     background-color: #2e2e2e;
