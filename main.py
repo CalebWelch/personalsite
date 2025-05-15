@@ -46,5 +46,4 @@ def index():
     return render_template('artist_spa.html', videos=video_data, logo=headerImage)
 
 if __name__ == '__main__':
-    app.debug = True
     app.run()
