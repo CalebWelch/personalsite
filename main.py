@@ -37,25 +37,39 @@ def ping():
 @app.route('/')
 def index():
     try:
-        # Import s3_functions only when needed to avoid startup errors
-        from s3_functions import show_image
+        # Use local videos as fallback in case S3 fails
+        local_videos = []
+        for video in VIDEOS:
+            local_videos.append({
+                "title": video["title"],
+                "url": url_for("static", filename=f"videos/{video['filename']}")
+            })
         
-        videos = VIDEOS
-        video_data = []
         headerImage = url_for("static", filename="logo_actual_white.jpg")
         
+        # Try to get videos from S3
+        video_data = []
         try:
+            # Import s3_functions only when needed to avoid startup errors
+            from s3_functions import show_image
             contents = show_image(BUCKET)
-            for v in contents:
-                video_data.append({
-                    "title": "test",
-                    'url': v
-                })
+            
+            if contents:
+                # Use S3 videos if available
+                for i, v in enumerate(contents):
+                    video_data.append({
+                        "title": f"Video {i+1}",
+                        'url': v
+                    })
+            else:
+                # Fall back to local videos if S3 returns empty
+                app.logger.warning("S3 returned empty contents, using local videos")
+                video_data = local_videos
+                
         except Exception as e:
-            # Handle S3 errors gracefully
-            app.logger.error(f"S3 error: {e}")
-            app.logger.error(traceback.format_exc())
-            video_data = [{"title": "Error loading videos", "url": "#"}]
+            # Use local videos if S3 fails
+            app.logger.error(f"S3 error: {str(e)}")
+            video_data = local_videos
             
         return render_template('artist_spa.html', videos=video_data, logo=headerImage)
 
@@ -70,4 +84,4 @@ def index():
         return jsonify(error_details), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0')
