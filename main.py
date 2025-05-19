@@ -45,7 +45,12 @@ def index():
         #        "url": url_for("static", filename=f"videos/{video['filename']}")
         #    })
         
-        headerImage = url_for("static", filename="logo_actual_white.jpg")
+        logo_path = os.path.join('statci', 'logo_actual_white.jpg')
+        if os.path.exists(logo_path):
+            headerImage = url_for("static", filename="logo_actual_white.jpg")
+        else:
+            app.logger.warning("Logo file not found, using placeholder")
+            headerImage = "#"
         
         ## Try to get videos from S3
         #video_data = []
