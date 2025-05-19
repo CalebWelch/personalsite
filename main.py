@@ -19,7 +19,7 @@ VIDEOS = [
 def debug():
     """Debug endpoint to check if the app is working"""
     return jsonify({
-        "status": "ok",
+        "status": "ok yes",
         "app_running": True,
         "template_dir_exists": os.path.isdir("templates"),
         "static_dir_exists": os.path.isdir("static"),
@@ -38,40 +38,41 @@ def ping():
 def index():
     try:
         # Use local videos as fallback in case S3 fails
-        local_videos = []
-        for video in VIDEOS:
-            local_videos.append({
-                "title": video["title"],
-                "url": url_for("static", filename=f"videos/{video['filename']}")
-            })
+        #local_videos = []
+        #for video in VIDEOS:
+        #    local_videos.append({
+        #        "title": video["title"],
+        #        "url": url_for("static", filename=f"videos/{video['filename']}")
+        #    })
         
         headerImage = url_for("static", filename="logo_actual_white.jpg")
         
-        # Try to get videos from S3
-        video_data = []
-        try:
-            # Import s3_functions only when needed to avoid startup errors
-            from s3_functions import show_image
-            contents = show_image(BUCKET)
+        ## Try to get videos from S3
+        #video_data = []
+        #try:
+        #    # Import s3_functions only when needed to avoid startup errors
+        #    from s3_functions import show_image
+        #    contents = show_image(BUCKET)
             
-            if contents:
-                # Use S3 videos if available
-                for i, v in enumerate(contents):
-                    video_data.append({
-                        "title": f"Video {i+1}",
-                        'url': v
-                    })
-            else:
-                # Fall back to local videos if S3 returns empty
-                app.logger.warning("S3 returned empty contents, using local videos")
-                video_data = local_videos
+        #    if contents:
+        #        # Use S3 videos if available
+        #        for i, v in enumerate(contents):
+        #            video_data.append({
+        #                "title": f"Video {i+1}",
+        #                'url': v
+        #            })
+        #    else:
+        #        # Fall back to local videos if S3 returns empty
+        #        app.logger.warning("S3 returned empty contents, using local videos")
+        #        video_data = local_videos
                 
-        except Exception as e:
-            # Use local videos if S3 fails
-            app.logger.error(f"S3 error: {str(e)}")
-            video_data = local_videos
+        #except Exception as e:
+        #    # Use local videos if S3 fails
+        #    app.logger.error(f"S3 error: {str(e)}")
+        #    video_data = local_videos
             
-        return render_template('artist_spa.html', videos=video_data, logo=headerImage)
+        #return render_template('artist_spa.html', videos=video_data, logo=headerImage)
+        return render_template('artist_spa.html', logo=headerImage)
 
     except Exception as e:
         # Return detailed error for debugging
