@@ -1,9 +1,11 @@
+import logging
 import os
 import traceback
 from flask import Flask, render_template, url_for, jsonify
 import boto3
 
 app = Flask(__name__)
+logger = logging.getLogger(__name__)
 app.config["VIDEO_FOLDER"] = os.path.join("static", "videos")
 BUCKET = "visuals-images"
 
@@ -45,39 +47,23 @@ def ping():
 
 @app.route("/")
 def index():
-    ## Try to get videos from S3
-    # video_data = []
-    # try:
-    #    # Import s3_functions only when needed to avoid startup errors
-    #    from s3_functions import show_image
-    #    contents = show_image(BUCKET)
+    video_data = []
+    try:
+        # Import s3_functions only when needed to avoid startup errors
+        from s3_functions import list_videos
 
-    #    if contents:
-    #        # Use S3 videos if available
-    #        for i, v in enumerate(contents):
-    #            video_data.append({
-    #                "title": f"Video {i+1}",
-    #                'url': v
-    #            })
-    #    else:
-    #        # Fall back to local videos if S3 returns empty
-    #        app.logger.warning("S3 returned empty contents, using local videos")
-    #        video_data = local_videos
+        local_videos = []
+        videos = list_videos(BUCKET)
 
-    # except Exception as e:
-    #    # Use local videos if S3 fails
-    #    app.logger.error(f"S3 error: {str(e)}")
-    #    video_data = local_videos
+        if videos:
+            app.logger.info("Grabbed videos with length {0}".format(len(videos)))
+        else:
+            # Fall back to local videos if S3 returns empty
+            app.logger.warning("S3 returned empty contents, using local videos")
+            videos= local_videos
 
-    # return render_template('artist_spa.html', videos=video_data, logo=headerImage)
-    # Use local videos as fallback in case S3 fails
-    # local_videos = []
-    # for video in VIDEOS:
-    #    local_videos.append({
-    #        "title": video["title"],
-    #        "url": url_for("static", filename=f"videos/{video['filename']}")
-    #    })
-    # Log that we're entering the index route
+    except Exception as e:
+        app.logger(e)
     try:
         # Log that we're entering the index route
         app.logger.info("Entering index route")
@@ -97,7 +83,7 @@ def index():
 
         # Try rendering template
         app.logger.info("Attempting to render template")
-        return render_template("artist_spa.html", logo=headerImage)
+        return render_template("artist_spa.html", logo=headerImage, videos=videos)
     except Exception as e:
         # Return detailed error for debugging
         error_details = {"error": str(e), "traceback": traceback.format_exc()}
