@@ -9,17 +9,6 @@ logger = logging.getLogger(__name__)
 app.config["VIDEO_FOLDER"] = os.path.join("static", "videos")
 BUCKET = "visuals-images"
 
-VIDEOS = [
-    {"id": 1, "title": "Space Laces - This Way", "filename": "thisway.mp4"},
-    {
-        "id": 2,
-        "title": "Skrillex, Hamdi, TAICHU & OFFAIAH - Push (Aero Soul Flip)",
-        "filename": "push.mp4",
-    },
-    {"id": 3, "title": "Cure97 - Darkside", "filename": "darkside.mp4"},
-    {"id": 4, "title": "Vier - Control", "filename": "control.mp4"},
-    {"id": 5, "title": "Silcrow - Take Me Down (VIP)", "filename": "silcrow.mp4"},
-]
 
 
 @app.route("/debug")
@@ -38,16 +27,8 @@ def debug():
         }
     )
 
-
-@app.route("/ping")
-def ping():
-    """Simple ping endpoint"""
-    return "pong"
-
-
 @app.route("/")
 def index():
-    video_data = []
     try:
         # Import s3_functions only when needed to avoid startup errors
         from s3_functions import list_videos
@@ -93,4 +74,4 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", debug=True)

@@ -54,12 +54,13 @@
                         {% if videos %}
                             {% for video in videos %}
                             <div class="video-item">
-                                <video controls preload="metadata" aspect-ratio="16/9">
+                                <video controls preload="metadata" aspect-ratio="16/9" onloadeddata="this.volume=0.2">
                                     <source src="{{video.url}}" type="video/mp4">
                                     Your browser does not support the video tag.
                                 </video>
                                 <div class="video-info">
                                     <h3>{{video.title}}</h3>
+                                    <h3>{{video.artist}}</h3>
                                 </div>
                             </div>
                             {% endfor %}

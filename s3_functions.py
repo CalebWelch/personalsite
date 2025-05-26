@@ -37,11 +37,12 @@ def list_videos(bucket):
                         Params={"Bucket": bucket, "Key": key},
                         ExpiresIn=7200,
                     )
-
+                    data = head.get('Metadata', {})
                     title = key.split(".")[0]
                     videos.append({
                         "key": key,
-                        "title": title,
+                        "title": data['title'],
+                        "artist": data['artist'],
                         "url": presigned_url,
                         "size": size,
                         "last_modified": last_modified,
