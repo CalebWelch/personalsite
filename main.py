@@ -1,14 +1,28 @@
 import logging
 import os
 import traceback
-from flask import Flask, render_template, url_for, jsonify
+import uuid
+from s3_functions import upload_to_s3
+from flask import (
+    Flask,
+    flash,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+    jsonify,
+)
+from admin_uploader import admin_required
+from werkzeug.utils import secure_filename
+import secrets
 import boto3
 
 app = Flask(__name__)
+app.secret_key = secrets.token_hex(16)
 logger = logging.getLogger(__name__)
 app.config["VIDEO_FOLDER"] = os.path.join("static", "videos")
 BUCKET = "visuals-images"
-
 
 
 @app.route("/debug")
@@ -27,6 +41,59 @@ def debug():
         }
     )
 
+
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        if username == "admin" and password == "pass":
+            session["is_admin"] = True
+            flash("logged in", "success")
+            return redirect(url_for("upload_page"))
+        else:
+            flash("Invalid credentials", "error")
+    return render_template("admin_login.html")
+
+
+@app.route("/admin/upload", methods=["GET", "POST"])
+@admin_required
+def upload_page():
+    if request.method == "POST":
+        if "video_file" not in request.files:
+            flash("no file selected", "error")
+            return redirect(request.url)
+        file = request.files["video_file"]
+        if file.filename == "":
+            flash("no file selected", "error")
+            return redirect(request.url)
+
+        if file:
+            filename = secure_filename(file.filename)
+            artist = request.form.get('Artist', '').strip()
+            title = request.form.get('Title', '').strip()
+
+            metadata = {
+                "x-amz-meta-artist": artist,
+                "x-amz-meta-title": title
+            }
+            file_extension = filename.rsplit(".", 1)[1].lower()
+            unique_filename = f"{uuid.uuid4()}.{file_extension}"
+            folder_prefex = request.form.get("folder", "").strip()
+            if folder_prefex:
+                s3_key = f"{secure_filename(folder_prefex)}/{unique_filename}"
+            else:
+                s3_key = unique_filename
+            if upload_to_s3(file, BUCKET, s3_key, metadata):
+                flash(f"Video uploaded as {s3_key}", "success")
+            else:
+                flash("error uploading to s3", "error")
+        else:
+            flash("Invalid file type", "error")
+    return render_template("upload_page.html")
+
+
 @app.route("/")
 def index():
     try:
@@ -41,7 +108,7 @@ def index():
         else:
             # Fall back to local videos if S3 returns empty
             app.logger.warning("S3 returned empty contents, using local videos")
-            videos= local_videos
+            videos = local_videos
 
     except Exception as e:
         app.logger(e)
@@ -74,4 +141,4 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", debug=True)
