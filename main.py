@@ -15,6 +15,7 @@ from flask import (
 )
 from admin_uploader import admin_required
 from werkzeug.utils import secure_filename
+from werkzeug.security import check_password_hash
 import secrets
 import boto3
 
@@ -23,7 +24,8 @@ app.secret_key = secrets.token_hex(16)
 logger = logging.getLogger(__name__)
 app.config["VIDEO_FOLDER"] = os.path.join("static", "videos")
 BUCKET = "visuals-images"
-
+ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME")
+ADMIN_PASSWORD_HASH = os.environ.get("ADMIN_PASSWORD_HASH")
 
 @app.route("/debug")
 def debug():
@@ -48,7 +50,7 @@ def admin_login():
         username = request.form["username"]
         password = request.form["password"]
 
-        if username == "admin" and password == "pass":
+        if ( username == ADMIN_USERNAME and check_password_hash(ADMIN_PASSWORD_HASH, password) ):
             session["is_admin"] = True
             flash("logged in", "success")
             return redirect(url_for("upload_page"))
@@ -111,7 +113,7 @@ def index():
             videos = local_videos
 
     except Exception as e:
-        app.logger(e)
+        app.logger.error(e)
     try:
         # Log that we're entering the index route
         app.logger.info("Entering index route")
@@ -123,7 +125,7 @@ def index():
 
         # Try to get header image
         try:
-            headerImage = url_for("static", filename="logo_actual_white.jpg")
+            headerImage = url_for("static", filename="as_logo_full_white_transparent.png")
             app.logger.info(f"Logo URL: {headerImage}")
         except Exception as e:
             app.logger.error(f"Error getting logo URL: {e}")
@@ -141,4 +143,4 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0", debug=False)
