@@ -1,1 +1,2 @@
 web: gunicorn main:app
+scrypt:32768:8:1$4tXFEiWpAMfru1gv$e72c47578d78a6db7aa9b424fbf1bfdc458d175cdae10d21ab40f8b72afd5592ef2222ccbcf7f412ba889e71949d67c870daa7064c76f44ffc1881987a5c0393
